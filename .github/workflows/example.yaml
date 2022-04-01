@@ -1,0 +1,96 @@
+name: diff
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  TARGET_BRANCH: "main"
+  TARGET_FILE: "test/file1.json"
+  TARGET_DIR: "test/dir"
+
+jobs:
+  file-watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: ./
+        id: diff
+        name: diff
+        with:
+          target-branch: ${{ env.TARGET_BRANCH }}
+          target-file: ${{ env.TARGET_FILE }}
+      - name: file result
+        if: steps.diff.outputs.file-diff > 0
+        run: |
+          echo '${{ env.TARGET_FILE }} is changed'
+      - name: directory result
+        if: steps.diff.outputs.dir-diff > 0
+        run: |
+          echo '${{ env.TARGET_DIR }} is changed'
+
+  directory-watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: ./
+        id: diff
+        name: diff
+        with:
+          target-branch: ${{ env.TARGET_BRANCH }}
+          target-dir: ${{ env.TARGET_DIR }}
+      - name: file result
+        if: steps.diff.outputs.file-diff > 0
+        run: |
+          echo '${{ env.TARGET_FILE }} is changed'
+      - name: directory result
+        if: steps.diff.outputs.dir-diff > 0
+        run: |
+          echo '${{ env.TARGET_DIR }} is changed'
+
+  both-watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: ./
+        id: diff
+        name: diff
+        with:
+          target-branch: ${{ env.TARGET_BRANCH }}
+          target-file: ${{ env.TARGET_FILE }}
+          target-dir: ${{ env.TARGET_DIR }}
+      - name: file result
+        if: steps.diff.outputs.file-diff > 0
+        run: |
+          echo '${{ env.TARGET_FILE }} is changed'
+      - name: directory result
+        if: steps.diff.outputs.dir-diff > 0
+        run: |
+          echo '${{ env.TARGET_DIR }} is changed'
+
+  no-watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: ./
+        id: diff
+        name: diff
+        with:
+          target-branch: ${{ env.TARGET_BRANCH }}
+      - name: file result
+        if: steps.diff.outputs.file-diff > 0
+        run: |
+          echo '${{ env.TARGET_FILE }} is changed'
+      - name: directory result
+        if: steps.diff.outputs.dir-diff > 0
+        run: |
+          echo '${{ env.TARGET_DIR }} is changed'
