@@ -1,0 +1,5 @@
+{
+    "description": "List of jobs that will work if this file is rewritten.",
+    "list": ["directory-watch", "both-watch (dir only)"],
+    "test": ""
+}
