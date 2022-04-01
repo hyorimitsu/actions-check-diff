@@ -1,0 +1,41 @@
+name: diff
+description: Determines if a file or directory has differences.
+
+inputs:
+  target-branch:
+    description: target branch
+    required: true
+  target-file:
+    description: target file
+    required: false
+  target-dir:
+    description: target directory
+    required: false
+
+outputs:
+  file-diff:
+    description: If over 0, there is a difference in the `target-file`.
+    value: ${{ steps.diff.outputs.file-diff }}
+  dir-diff:
+    description: If over 0, there is a difference in the `target-dir`.
+    value: ${{ steps.diff.outputs.dir-diff }}
+
+runs:
+  using: composite
+  steps:
+    - id: diff
+      env:
+        TARGET_BRANCH: ${{ inputs.target-branch }}
+        TARGET_FILE: ${{ inputs.target-file }}
+        TARGET_DIR: ${{ inputs.target-dir }}
+      run: |
+        if [ "${TARGET_FILE}" != "" ]; then
+          fileDiffCount=`git diff origin/${TARGET_BRANCH}^ origin/${TARGET_BRANCH} -- ${TARGET_FILE} --name-only | wc -l`
+          echo "::set-output name=file-diff::$(echo $fileDiffCount)"
+        fi
+        if [ "${TARGET_DIR}" != "" ]; then
+          dirDiffCount=`git diff origin/${TARGET_BRANCH}^ origin/${TARGET_BRANCH} --name-only --relative=${TARGET_DIR} | wc -l`
+          echo "::set-output name=dir-diff::$(echo $dirDiffCount)"
+        fi
+      shell:
+        bash
