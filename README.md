@@ -1,4 +1,4 @@
-Diff Actions
+Check diff Action
 ---
 
 This action check if a file or directory has differences.
@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: hyorimitsu/check-diff@v0.0.1
+      - uses: hyorimitsu/actions-check-diff@v0.0.1
         id: diff
         name: diff
         with:
