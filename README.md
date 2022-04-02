@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: actions/actions-diff@v0.0.1
+      - uses: hyorimitsu/check-diff@v0.0.1
         id: diff
         name: diff
         with:
