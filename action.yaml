@@ -1,15 +1,15 @@
 name: diff
-description: Determines if a file or directory has differences.
+description: This action check if a file or directory has differences.
 
 inputs:
   target-branch:
-    description: target branch
+    description: The branch that triggers this action.
     required: true
   target-file:
-    description: target file
+    description: The path to the file where you want to check for differences.
     required: false
   target-dir:
-    description: target directory
+    description: The path to the directory where you want to check for differences.
     required: false
 
 outputs:
