@@ -1,4 +1,4 @@
-name: check-diff
+name: check diff
 description: This action check if a file or directory has differences.
 
 inputs:
